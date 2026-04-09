@@ -1,8 +1,10 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
+import { useToast } from './ToastContext';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+    const { addToast } = useToast();
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [showLogin, setShowLogin] = useState(false);
@@ -32,12 +34,14 @@ export const AuthProvider = ({ children }) => {
                 const data = await res.json();
                 setUser(data);
                 localStorage.setItem('cs_user', JSON.stringify(data));
+                addToast(`Welcome back, ${data.firstName || 'User'}!`, 'success');
                 return { success: true };
             }
             const errText = await res.text();
             return { success: false, message: errText || 'Login failed' };
         } catch (error) {
             console.error('Login error:', error);
+            addToast('Login Failed: Auth server unreachable.', 'error');
             return { success: false, message: 'Auth server unreachable. Please make sure the backend is running.' };
         }
     };
@@ -54,12 +58,14 @@ export const AuthProvider = ({ children }) => {
                 const data = await res.json();
                 setUser(data);
                 localStorage.setItem('cs_user', JSON.stringify(data));
+                addToast('Account created successfully!', 'success');
                 return { success: true };
             }
             const errText = await res.text();
             return { success: false, message: errText || 'Signup failed' };
         } catch (error) {
             console.error('Signup error:', error);
+            addToast('Signup Failed: Auth server unreachable.', 'error');
             return { success: false, message: 'Auth server unreachable. Please make sure the backend is running.' };
         }
     };

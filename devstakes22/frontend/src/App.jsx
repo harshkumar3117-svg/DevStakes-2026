@@ -11,6 +11,7 @@ import Detail from './pages/Detail';
 import AuthModals from './components/AuthModals';
 import { AuthProvider } from './context/AuthContext';
 import { WatchlistProvider } from './context/WatchlistContext';
+import { ToastProvider } from './context/ToastContext';
 import ParallaxStars from './components/ParallaxStars';
 import './index.css';
 
@@ -27,28 +28,30 @@ function App() {
 
   return (
     <Router>
-      <AuthProvider>
-        <WatchlistProvider>
-          <div className="app">
-            <ParallaxStars />
-            <Navbar scrolled={scrolled} />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/movies" element={<Movies />} />
-              <Route path="/series" element={<Series />} />
-              <Route path="/watchlist" element={<Watchlist />} />
-              <Route path="/search" element={<Search />} />
-              <Route path="/community" element={<Community />} />
-              <Route path="/detail/:type/:id" element={<Detail />} />
-              <Route path="*" element={<Navigate to="/" />} />
-            </Routes>
-            <AuthModals />
-            
-            {/* Background elements preserved from original */}
-            <div className="parallax-stars"></div>
-          </div>
-        </WatchlistProvider>
-      </AuthProvider>
+      <ToastProvider>
+        <AuthProvider>
+          <WatchlistProvider>
+            <div className="app">
+              <ParallaxStars />
+              <Navbar scrolled={scrolled} />
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/movies" element={<Movies />} />
+                <Route path="/series" element={<Series />} />
+                <Route path="/watchlist" element={<Watchlist />} />
+                <Route path="/search" element={<Search />} />
+                <Route path="/community" element={<Community />} />
+                <Route path="/detail/:type/:id" element={<Detail />} />
+                <Route path="*" element={<Navigate to="/" />} />
+              </Routes>
+              <AuthModals />
+              
+              {/* Background elements preserved from original */}
+              <div className="parallax-stars"></div>
+            </div>
+          </WatchlistProvider>
+        </AuthProvider>
+      </ToastProvider>
     </Router>
   );
 }

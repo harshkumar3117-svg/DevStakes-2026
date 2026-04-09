@@ -2,17 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { Play, Plus, Info, Star, Check } from 'lucide-react';
 import { getBackdropUrl, getPosterUrl, getGenreNames } from '../services/apiService';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import { useWatchlist } from '../context/WatchlistContext';
 
 const Hero = ({ movies, loading }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const navigate = useNavigate();
+    const { user, setShowLogin } = useAuth();
     const { toggleWatchlist, isInWatchlist } = useWatchlist();
     const movie = movies[currentIndex];
     const isAdded = movie ? isInWatchlist(movie.id) : false;
 
     const handleToggle = (e) => {
         e.stopPropagation();
+        if (!user) {
+            setShowLogin(true);
+            return;
+        }
         if (movie) toggleWatchlist(movie);
     };
 
