@@ -87,7 +87,10 @@ With a sleek UI and  recommendations, users can explore, track, and engage with 
 ## 👥 Contributors
 
 - Ayushi Gupta  
-- Team Krantikari  
+- Priya Verma
+- Harsh Kumar
+- Bikash Kumar Mehar
+- Yuvraj Mishra
 
 ---
 
