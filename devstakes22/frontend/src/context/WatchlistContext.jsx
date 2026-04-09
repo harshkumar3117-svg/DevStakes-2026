@@ -1,10 +1,12 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { useAuth } from './AuthContext';
+import { useToast } from './ToastContext';
 
 const WatchlistContext = createContext();
 
 export const WatchlistProvider = ({ children }) => {
     const { user } = useAuth();
+    const { addToast } = useToast();
     const [watchlist, setWatchlist] = useState([]);
 
     useEffect(() => {
@@ -39,6 +41,8 @@ export const WatchlistProvider = ({ children }) => {
             releaseDate: item.release_date || item.first_air_date || item.releaseDate,
         };
 
+        const isAdding = !watchlist.some(w => (w.id || w.tmdbId) === (item.id || item.tmdbId));
+
         try {
             const res = await fetch(`http://localhost:8080/api/watchlist/${user.id}/toggle`, {
                 method: 'POST',
@@ -48,10 +52,12 @@ export const WatchlistProvider = ({ children }) => {
             if (res.ok) {
                 const data = await res.json();
                 setWatchlist(data);
+                addToast(isAdding ? 'Added to Watchlist' : 'Removed from Watchlist', 'success');
                 return true;
             }
         } catch (error) {
             console.error('Failed to toggle watchlist on backend', error);
+            addToast('Server Connection Failed. Please ensure the backend is running.', 'error');
         }
         return false;
     };

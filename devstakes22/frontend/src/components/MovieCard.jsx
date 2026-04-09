@@ -2,10 +2,12 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Play, Plus, Info, Star, Bookmark, Check } from 'lucide-react';
 import { getPosterUrl } from '../services/apiService';
+import { useAuth } from '../context/AuthContext';
 import { useWatchlist } from '../context/WatchlistContext';
 
 const MovieCard = ({ movie, type }) => {
     const navigate = useNavigate();
+    const { user, setShowLogin } = useAuth();
     const { toggleWatchlist, isInWatchlist } = useWatchlist();
     const mediaType = type || (movie.title ? 'movie' : 'tv');
     const isAdded = isInWatchlist(movie.id || movie.tmdbId);
@@ -16,6 +18,10 @@ const MovieCard = ({ movie, type }) => {
 
     const handleToggle = (e) => {
         e.stopPropagation();
+        if (!user) {
+            setShowLogin(true);
+            return;
+        }
         toggleWatchlist(movie);
     };
 

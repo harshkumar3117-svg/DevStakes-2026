@@ -121,32 +121,28 @@ export async function fetchByGenreSeries(genreId,p=1) { return (await tmdbFetch(
 // DETAIL PAGE FETCHING
 // =============================
 export async function fetchMovieDetails(movieId) {
-    let [details, credits, videos, similar] = await Promise.all([
+    let [details, credits, similar] = await Promise.all([
         tmdbFetch(`/movie/${movieId}`, {append_to_response:'release_dates'}),
         tmdbFetch(`/movie/${movieId}/credits`),
-        tmdbFetch(`/movie/${movieId}/videos`),
         tmdbFetch(`/movie/${movieId}/similar`)
     ]);
     
     return {
         details, credits: credits || { cast: [] },
-        videos: videos?.results?.filter(v => v.type==='Trailer' && v.site==='YouTube') || [],
         similar: similar?.results?.slice(0,10) || []
     };
 }
 
 export async function fetchSeriesDetails(id) {
-    let [details, credits, videos, similar] = await Promise.all([
+    let [details, credits, similar] = await Promise.all([
         tmdbFetch(`/tv/${id}`),
         tmdbFetch(`/tv/${id}/credits`),
-        tmdbFetch(`/tv/${id}/videos`),
         tmdbFetch(`/tv/${id}/similar`)
     ]);
 
     return {
         details, credits: credits || { cast: [] },
-        videos: videos?.results?.filter(v => v.type==='Trailer' && v.site==='YouTube') || [],
-        similar: similar?.results?.slice(0,10) || []
+        similar: similar?.results?.slice(0, 10) || []
     };
 }
 
@@ -183,9 +179,7 @@ export async function discoverMovies(params={}) {
 // =============================
 // EMBED URLS (In-site player)
 // =============================
-export function getVidsrcEmbedUrl(id, type='movie') {
-    return type==='tv' ? `https://vidsrc.xyz/embed/tv/${id}` : `https://vidsrc.xyz/embed/movie/${id}`;
-}
+
 export function get2EmbedUrl(id, type='movie') {
     return type==='tv' ? `https://www.2embed.cc/embedtvfull/${id}` : `https://www.2embed.cc/embed/${id}`;
 }

@@ -6,19 +6,21 @@ import {
     fetchSeriesDetails, 
     getBackdropUrl, 
     getPosterUrl, 
-    getProfileUrl,
-    getVidsrcEmbedUrl
+    getProfileUrl, 
+    get2EmbedUrl
 } from '../services/apiService';
+import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import { useWatchlist } from '../context/WatchlistContext';
 import MovieRow from '../components/MovieRow';
 
 const Detail = () => {
     const { type, id } = useParams();
     const navigate = useNavigate();
+    const { user, setShowLogin } = useAuth();
     const { toggleWatchlist, isInWatchlist } = useWatchlist();
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [activeTab, setActiveTab] = useState(null);
 
     useEffect(() => {
         const loadDetails = async () => {
@@ -39,7 +41,7 @@ const Detail = () => {
     if (loading) return <div className="detail-loading"><div className="spinner"></div>Loading Cinematic Experience...</div>;
     if (!data || !data.details) return <div className="detail-loading">Content not found. The API may be temporarily unavailable.</div>;
 
-    const { details, credits, videos, similar } = data;
+    const { details, credits, similar } = data;
 
     return (
         <div className="movie-detail-page">
@@ -84,56 +86,30 @@ const Detail = () => {
                         <p className="detail-overview">{details.overview}</p>
 
                         <div className="detail-actions">
-                            <button className="btn-primary" onClick={() => setActiveTab('watch')}>
+                            <button className="btn-primary" onClick={() => {
+                                document.getElementById('player')?.scrollIntoView({ behavior: 'smooth' });
+                            }}>
                                 <Play size={20} fill="currentColor" /> Watch Now
                             </button>
-                            <button className="btn-ghost" onClick={() => toggleWatchlist(details)}>
+                            <button className="btn-ghost" onClick={() => {
+                                if (!user) {
+                                    setShowLogin(true);
+                                } else {
+                                    toggleWatchlist(details);
+                                }
+                            }}>
                                 <Plus size={20} /> {isInWatchlist(details.id) ? 'In Watchlist' : 'Add to Watchlist'}
                             </button>
                         </div>
 
                         <div className="player-section" id="player">
-                            <div className="player-tabs">
-                                <button 
-                                    className={`player-tab ${activeTab === 'trailer' ? 'active' : ''}`}
-                                    onClick={() => setActiveTab('trailer')}
-                                >Trailer</button>
-                                <button 
-                                    className={`player-tab ${activeTab === 'watch' ? 'active' : ''}`}
-                                    onClick={() => setActiveTab('watch')}
-                                >Movie Server</button>
-                            </div>
-
                             <div className="trailer-container">
-                                {activeTab === null ? (
-                                    <div className="player-preview" onClick={() => setActiveTab('watch')}>
-                                        <div className="preview-overlay">
-                                            <div className="play-icon-large">
-                                                <Play size={40} fill="currentColor" />
-                                            </div>
-                                            <span>Click to Stream Now</span>
-                                        </div>
-                                        <img src={getBackdropUrl(details.backdrop_path)} alt="Preview" />
-                                    </div>
-                                ) : activeTab === 'trailer' ? (
-                                    videos[0] ? (
-                                        <iframe 
-                                            src={`https://www.youtube.com/embed/${videos[0].key}?autoplay=1`}
-                                            title="Trailer"
-                                            allowFullScreen
-                                            allow="autoplay"
-                                        ></iframe>
-                                    ) : (
-                                        <div className="trailer-loading">No trailer available</div>
-                                    )
-                                ) : (
-                                    <iframe 
-                                        src={getVidsrcEmbedUrl(details.id, type)}
-                                        title="Movie Player"
-                                        allowFullScreen
-                                        allow="autoplay"
-                                    ></iframe>
-                                )}
+                                <iframe 
+                                    src={get2EmbedUrl(details.id, type)}
+                                    title="Movie Player"
+                                    allowFullScreen
+                                    allow="autoplay"
+                                ></iframe>
                             </div>
                         </div>
                     </div>
