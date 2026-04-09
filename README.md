@@ -92,8 +92,4 @@ With a sleek UI and  recommendations, users can explore, track, and engage with 
 - Bikash Kumar Mehar
 - Yuvraj Mishra
 
----
 
-## 🧠 Tagline
-
-**"Your Private AI-Curated Cinema Universe."**
