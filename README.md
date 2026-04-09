@@ -5,6 +5,12 @@ CineStream is a modern movie discovery platform designed to deliver a personaliz
 With a sleek UI and  recommendations, users can explore, track, and engage with movies effortlessly.
 
 ---
+## TO RUN the website follow this steps:
+-- first install intellij idea and clone the github repo
+--after that,  go to file -> project structure-> select jdk 17 version 
+--reload the maven project 
+--run the website for backend go cinestream.application and run 
+--after that go to intellij idea terminal and run this command at frontend folder ( 1)-npm install , 2) -npm run dev )
 
 ## ✨ Features
 
