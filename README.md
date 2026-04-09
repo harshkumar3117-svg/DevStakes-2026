@@ -25,9 +25,15 @@ With a sleek UI and  recommendations, users can explore, track, and engage with 
 
 ### 📄 Movie Details Page
 - Detailed information:
-  - Rating, duration, language, votes  
+- Rating, duration, language, votes  
 - Watchlist and sharing options  
-- Clean and immersive UI  
+- Clean and immersive UI
+
+### ▶️ Watch Now (New Feature)
+- Users can click the “Watch Now” button to instantly start streaming the selected movie
+- The movie is fetched and played directly from a connected movie server or streaming API
+- Provides a seamless viewing experience without leaving the platform
+- Supports fullscreen playback and basic controls (play, pause, volume, seek)
 
 ### ❤️ Watchlist System
 - Add movies to your personal watchlist  
@@ -47,21 +53,20 @@ With a sleek UI and  recommendations, users can explore, track, and engage with 
 
 ## 🛠️ Tech Stack
 
-- **Frontend:** HTML, CSS, JavaScript  
+- **Frontend:** React 
+- **Backend: **Spring
 - **API:** Movie data (e.g., TMDB API)  
-- **Authentication:** Email + OAuth (Google/Apple)  
+- **Authentication:** Email 
 - **Design:** Gradient + Neon UI  
-
 ---
 
 ## ⚙️ How It Works
 
 1. Open the CineStream platform  
 2. Browse or search for movies  
-3. Explore AI-curated recommendations  
+3. Explore Movie recommendations  
 4. View movie details and reviews  
-5. Add movies to your watchlist  
-6. Share or review movies  
+5. Add movies to your watchlist    
 
 ---
 
@@ -89,7 +94,7 @@ With a sleek UI and  recommendations, users can explore, track, and engage with 
 - Ayushi Gupta  
 - Priya Verma
 - Harsh Kumar
-- Bikash Kumar Mehar
+- Bikash Kumar Meher
 - Yuvraj Mishra
 
 
