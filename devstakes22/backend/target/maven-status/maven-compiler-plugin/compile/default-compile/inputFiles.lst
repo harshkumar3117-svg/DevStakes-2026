@@ -1,0 +1,8 @@
+D:\devstake\back\devstakes22\backend\src\main\java\com\cinestream\CineStreamApplication.java
+D:\devstake\back\devstakes22\backend\src\main\java\com\cinestream\config\SecurityConfig.java
+D:\devstake\back\devstakes22\backend\src\main\java\com\cinestream\controller\AuthController.java
+D:\devstake\back\devstakes22\backend\src\main\java\com\cinestream\controller\WatchlistController.java
+D:\devstake\back\devstakes22\backend\src\main\java\com\cinestream\model\User.java
+D:\devstake\back\devstakes22\backend\src\main\java\com\cinestream\model\WatchlistItem.java
+D:\devstake\back\devstakes22\backend\src\main\java\com\cinestream\repository\UserRepository.java
+D:\devstake\back\devstakes22\backend\src\main\java\com\cinestream\service\AuthService.java

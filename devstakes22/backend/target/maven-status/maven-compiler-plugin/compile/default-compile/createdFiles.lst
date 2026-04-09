@@ -1,0 +1,10 @@
+com\cinestream\controller\WatchlistController.class
+com\cinestream\model\WatchlistItem.class
+com\cinestream\config\SecurityConfig$1.class
+com\cinestream\model\User.class
+com\cinestream\controller\AuthController$LoginRequest.class
+com\cinestream\CineStreamApplication.class
+com\cinestream\controller\AuthController.class
+com\cinestream\repository\UserRepository.class
+com\cinestream\config\SecurityConfig.class
+com\cinestream\service\AuthService.class
