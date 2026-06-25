@@ -104,12 +104,17 @@ const Detail = () => {
 
                         <div className="player-section" id="player">
                             <div className="trailer-container">
-                                <iframe 
-                                    src={get2EmbedUrl(details.id, type)}
-                                    title="Movie Player"
-                                    allowFullScreen
-                                    allow="autoplay"
-                                ></iframe>
+                                <div className="iframe-wrapper" style={{position:'relative'}}>
+                                    <iframe 
+                                        src={get2EmbedUrl(details.id, type)}
+                                        title="Movie Player"
+                                        allowFullScreen
+                                        allow="autoplay; fullscreen; picture-in-picture"
+                                        sandbox="allow-scripts allow-same-origin allow-forms allow-popups-to-escape-sandbox allow-presentation allow-pointer-lock"
+                                        referrerPolicy="no-referrer"
+                                        style={{border: 'none', width: '100%', height: '100%', display: 'block'}}
+                                    ></iframe>
+                                </div>
                             </div>
                         </div>
                     </div>
