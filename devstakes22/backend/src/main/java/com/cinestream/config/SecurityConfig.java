@@ -1,5 +1,6 @@
 package com.cinestream.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,6 +14,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    @Value("${frontend.url:http://localhost:5173}")
+    private String frontendUrl;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -36,8 +40,12 @@ public class SecurityConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("http://localhost:5173").allowedMethods("*");
+                registry.addMapping("/**")
+                    .allowedOriginPatterns(frontendUrl, "http://localhost:5173", "https://*.vercel.app")
+                    .allowedMethods("*")
+                    .allowedHeaders("*");
             }
         };
     }
 }
+

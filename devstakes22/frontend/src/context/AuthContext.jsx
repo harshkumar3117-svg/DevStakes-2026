@@ -1,4 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
+
+const API_BASE = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8080';
 import { useToast } from './ToastContext';
 
 const AuthContext = createContext();
@@ -24,7 +26,7 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (email, password) => {
         try {
-            const res = await fetch('http://localhost:8080/api/auth/login', {
+            const res = await fetch(`${API_BASE}/api/auth/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password }),
@@ -48,7 +50,7 @@ export const AuthProvider = ({ children }) => {
 
     const signup = async (userData) => {
         try {
-            const res = await fetch('http://localhost:8080/api/auth/signup', {
+            const res = await fetch(`${API_BASE}/api/auth/signup`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(userData),

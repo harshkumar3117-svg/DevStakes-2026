@@ -2,6 +2,8 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 import { useAuth } from './AuthContext';
 import { useToast } from './ToastContext';
 
+const API_BASE = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8080';
+
 const WatchlistContext = createContext();
 
 export const WatchlistProvider = ({ children }) => {
@@ -19,7 +21,7 @@ export const WatchlistProvider = ({ children }) => {
 
     const fetchWatchlist = async () => {
         try {
-            const res = await fetch(`http://localhost:8080/api/watchlist/${user.id}`);
+            const res = await fetch(`${API_BASE}/api/watchlist/${user.id}`);
             if (res.ok) {
                 const data = await res.json();
                 setWatchlist(data);
@@ -44,7 +46,7 @@ export const WatchlistProvider = ({ children }) => {
         const isAdding = !watchlist.some(w => (w.id || w.tmdbId) === (item.id || item.tmdbId));
 
         try {
-            const res = await fetch(`http://localhost:8080/api/watchlist/${user.id}/toggle`, {
+            const res = await fetch(`${API_BASE}/api/watchlist/${user.id}/toggle`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(itemData),
