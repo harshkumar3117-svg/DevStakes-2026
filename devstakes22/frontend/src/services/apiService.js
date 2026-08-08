@@ -177,11 +177,41 @@ export async function discoverMovies(params={}) {
 }
 
 // =============================
-// EMBED URLS (In-site player)
+// EMBED URLS (In-site player) — Multiple sources for reliability
 // =============================
 
+export function getEmbedSources(id, type='movie') {
+    const isTV = type === 'tv';
+    return [
+        {
+            name: 'VidSrc',
+            url: isTV
+                ? `https://vidsrc.to/embed/tv/${id}`
+                : `https://vidsrc.to/embed/movie/${id}`,
+        },
+        {
+            name: 'VidSrc.me',
+            url: isTV
+                ? `https://vidsrc.me/embed/tv?tmdb=${id}`
+                : `https://vidsrc.me/embed/movie?tmdb=${id}`,
+        },
+        {
+            name: '2Embed',
+            url: isTV
+                ? `https://www.2embed.cc/embedtvfull/${id}`
+                : `https://www.2embed.cc/embed/${id}`,
+        },
+        {
+            name: 'EmbedSu',
+            url: isTV
+                ? `https://embed.su/embed/tv/${id}`
+                : `https://embed.su/embed/movie/${id}`,
+        },
+    ];
+}
+
 export function get2EmbedUrl(id, type='movie') {
-    return type==='tv' ? `https://www.2embed.cc/embedtvfull/${id}` : `https://www.2embed.cc/embed/${id}`;
+    return getEmbedSources(id, type)[0].url;
 }
 
 // =============================

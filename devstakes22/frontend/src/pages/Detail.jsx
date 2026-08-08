@@ -6,8 +6,8 @@ import {
     fetchSeriesDetails, 
     getBackdropUrl, 
     getPosterUrl, 
-    getProfileUrl, 
-    get2EmbedUrl
+    getProfileUrl,
+    getEmbedSources
 } from '../services/apiService';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
@@ -21,6 +21,7 @@ const Detail = () => {
     const { toggleWatchlist, isInWatchlist } = useWatchlist();
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [activeSourceIndex, setActiveSourceIndex] = useState(0);
 
     useEffect(() => {
         const loadDetails = async () => {
@@ -103,19 +104,57 @@ const Detail = () => {
                         </div>
 
                         <div className="player-section" id="player">
-                            <div className="trailer-container">
-                                <div className="iframe-wrapper" style={{position:'relative'}}>
-                                    <iframe 
-                                        src={get2EmbedUrl(details.id, type)}
-                                        title="Movie Player"
-                                        allowFullScreen
-                                        allow="autoplay; fullscreen; picture-in-picture"
-                                        sandbox="allow-scripts allow-same-origin allow-forms allow-popups-to-escape-sandbox allow-presentation allow-pointer-lock"
-                                        referrerPolicy="no-referrer"
-                                        style={{border: 'none', width: '100%', height: '100%', display: 'block'}}
-                                    ></iframe>
-                                </div>
-                            </div>
+                            {(() => {
+                                const sources = getEmbedSources(details.id, type);
+                                const activeSource = sources[activeSourceIndex];
+                                return (
+                                    <>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem', flexWrap: 'wrap' }}>
+                                            <span style={{ color: '#aaa', fontSize: '0.8rem', marginRight: '0.25rem' }}>Player Source:</span>
+                                            {sources.map((src, i) => (
+                                                <button
+                                                    key={src.name}
+                                                    type="button"
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        setActiveSourceIndex(i);
+                                                    }}
+                                                    style={{
+                                                        padding: '4px 14px',
+                                                        borderRadius: '20px',
+                                                        border: 'none',
+                                                        cursor: 'pointer',
+                                                        fontWeight: 600,
+                                                        fontSize: '0.78rem',
+                                                        background: i === activeSourceIndex ? 'linear-gradient(135deg,#7c3aed,#a855f7)' : 'rgba(255,255,255,0.08)',
+                                                        color: i === activeSourceIndex ? '#fff' : '#ccc',
+                                                        transition: 'all 0.2s',
+                                                    }}
+                                                >
+                                                    {src.name}
+                                                </button>
+                                            ))}
+                                        </div>
+                                        <p style={{ color: '#888', fontSize: '0.75rem', marginBottom: '0.5rem' }}>
+                                            ⚠️ Agar movie nahi chal rahi to dusra source try karo
+                                        </p>
+                                        <div className="trailer-container">
+                                            <div className="iframe-wrapper" style={{position:'relative'}}>
+                                                <iframe 
+                                                    key={activeSource.url}
+                                                    src={activeSource.url}
+                                                    title="Movie Player"
+                                                    allowFullScreen
+                                                    allow="autoplay; fullscreen; picture-in-picture"
+                                                    sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox allow-presentation allow-pointer-lock"
+                                                    referrerPolicy="no-referrer"
+                                                    style={{border: 'none', width: '100%', height: '100%', display: 'block'}}
+                                                ></iframe>
+                                            </div>
+                                        </div>
+                                    </>
+                                );
+                            })()}
                         </div>
                     </div>
                 </div>
