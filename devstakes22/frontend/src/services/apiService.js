@@ -196,16 +196,22 @@ export function getEmbedSources(id, type='movie') {
                 : `https://vidsrc.me/embed/movie?tmdb=${id}`,
         },
         {
-            name: '2Embed',
+            name: 'AutoEmbed',
             url: isTV
-                ? `https://www.2embed.cc/embedtvfull/${id}`
-                : `https://www.2embed.cc/embed/${id}`,
+                ? `https://player.autoembed.cc/embed/tv/${id}`
+                : `https://player.autoembed.cc/embed/movie/${id}`,
         },
         {
             name: 'EmbedSu',
             url: isTV
                 ? `https://embed.su/embed/tv/${id}`
                 : `https://embed.su/embed/movie/${id}`,
+        },
+        {
+            name: '2Embed',
+            url: isTV
+                ? `https://www.2embed.cc/embedtvfull/${id}`
+                : `https://www.2embed.cc/embed/${id}`,
         },
     ];
 }
